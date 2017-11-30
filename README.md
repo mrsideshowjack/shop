@@ -1,5 +1,24 @@
 # SHOP
 
+## Guidelines
+
+Designing for users on the autistic spectrum
+
+### Do
+* use simple colours
+* write in plain English
+* use simple sentences and bullets
+* make buttons descriptive - for example, Attach files
+* build simple and consistent layouts
+### Don't
+* use bright contrasting colours
+* use figures of speech and idioms
+* create a wall of text
+* make buttons vague and unpredictable - for example, Click here
+* build complex and cluttered layouts
+
+![poster](https://accessibility.blog.gov.uk/wp-content/uploads/sites/52/2016/09/autistic-spectrum.png)
+
 ### Setup
 
 ##### Prerequisites
