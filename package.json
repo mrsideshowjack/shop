@@ -1,0 +1,25 @@
+{
+  "name": "webres-shop",
+  "version": "1.0.0",
+  "description": "Install [polymer-cli](https://github.com/Polymer/polymer-cli):",
+  "main": "service-worker.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mrsideshowjack/webres-shop.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mrsideshowjack/webres-shop/issues"
+  },
+  "homepage": "https://github.com/mrsideshowjack/webres-shop#readme",
+  "dependencies": {
+    "random-id": "0.0.2"
+  }
+}

@@ -18,6 +18,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/iron-media-query/iron-media-query.html">
 <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../bower_components/iron-selector/iron-selector.html">
+
+<!-- https://www.npmjs.com/package/random-id -->
+<script type="text/javascript" src="../node_modules/random-id/randomID.js"></script>
+
 <link rel="import" href="shop-category-data.html">
 <!-- Since 'home' is the default route, eagerly load it. -->
 <link rel="import" href="shop-home.html">
@@ -177,7 +181,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
       footer {
-        position: absolute;
+        position: fixed;
         bottom: 0;
         left: 0;
         right: 0;
@@ -263,7 +267,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <paper-icon-button icon="arrow-back" aria-label="Go back"></paper-icon-button>
           </a>
         </div>
-        <div class="logo" main-title><a href="/" aria-label="SHOP Home">SHOP</a></div>
+        <div class="logo" main-title>
+          <a href="/" aria-label="SHOP Home">SHOP</a></div>
         <div class="cart-btn-container">
           <a href="/cart" tabindex="-1">
             <paper-icon-button icon="shopping-cart" aria-label$="Shopping cart: [[_computePluralizedQuantity(numItems)]]"></paper-icon-button>
@@ -324,10 +329,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </iron-pages>
 
     <footer>
-      <a href="https://www.polymer-project.org/1.0/toolbox/">Made by Polymer</a>
-      <div class="demo-label">Demo Only</div>
+      <div class="demo-label">Survey ID: [[id]]</div>
     </footer>
-
     <!-- a11y announcer -->
     <div class="announcer" aria-live="assertive">[[_a11yLabel]]</div>
 
@@ -343,6 +346,36 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       static get is() { return 'shop-app'; }
 
       static get properties() { return {
+        id: {
+          type: String,
+          notify: true,
+          computed: 'genID()'
+        },
+        guideline1: {
+          type: Boolean,
+          notify: true,
+          computed: 'computeBool(id, 0)'
+        },
+        guideline2: {
+          type: Boolean,
+          notify: true,
+          computed: 'computeBool(id, 1)'
+        },
+        guideline3: {
+          type: Boolean,
+          notify: true,
+          computed: 'computeBool(id, 2)'
+        },
+        guideline4: {
+          type: Boolean,
+          notify: true,
+          computed: 'computeBool(id, 3)'
+        },
+        guideline5: {
+          type: Boolean,
+          notify: true,
+          computed: 'computeBool(id, 4)'
+        },
         page: {
           type: String,
           reflectToAttribute: true,
@@ -393,6 +426,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           window.addEventListener('online', (e)=>this._notifyNetworkStatus(e));
           window.addEventListener('offline', (e)=>this._notifyNetworkStatus(e));
         });
+      }
+
+      genID() {
+        return randomID(5, "0");
+      }
+      computeBool(id, num) {
+        if (id.charAt(num) <= 5) {
+          return true;
+        } else {
+          return false;
+        }
       }
 
       _routePageChanged(page) {
