@@ -1,4 +1,6 @@
-# SHOP
+# WEBRES SHOP
+
+> live link [webres-shop](https://webres-7b761.firebaseapp.com/)
 
 ## Guidelines
 
@@ -90,3 +92,15 @@ Run the command to build the presets:
 Use `polymer serve` to serve a specific build preset of the app. For example:
 
     polymer serve build/es5-bundled
+
+## Deploy
+
+##### Prerequisites
+
+Install [firebase-tools](https://github.com/firebase/firebase-tools):
+
+    npm install -g firebase-tools
+
+##### Deploy
+    polymer build
+    firebase deploy

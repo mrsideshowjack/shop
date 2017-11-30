@@ -41,17 +41,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         --app-primary-color: #202020;
         --app-secondary-color: #757575;
         --app-accent-color: #172C50;
+        --app--bg-color: rgba(255, 255, 255, 0.95);
         --paper-button-ink-color: var(--app-accent-color);
         --paper-icon-button-ink-color: var(--app-accent-color);
         --paper-spinner-color: var(--app-accent-color);
         -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
         color: var(--app-primary-color);
+        background-color: var(--app--bg-color);
       }
-
       app-header {
         @apply --layout-fixed-top;
         z-index: 1;
-        background-color: rgba(255, 255, 255, 0.95);
+        background-color: var(--app--bg-color);
         --app-header-shadow: {
           box-shadow: inset 0px 5px 6px -3px rgba(0, 0, 0, 0.2);
           height: 10px;
@@ -226,6 +227,41 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     </style>
 
+    <dom-if if="{{!guideline1}}">
+      <template>
+        <style>
+          :host{
+            --app-bg-color: rgb(187, 89, 243);
+            --app-primary-color: #3aeff5;
+            --app-secondary-color: #310070;
+            --app-accent-color: rgb(167, 218, 85);
+            background-color: rgb(187, 89, 243);
+          }
+          app-header{
+            background-color: rgb(187, 89, 243);
+          }
+          shop-tabs, shop-tab {
+          --shop-tab-overlay: {
+              border-bottom: none;
+            };
+          }
+        </style>
+      </template>
+    </dom-if>
+
+    <dom-if if="{{!guideline5}}">
+      <template>
+        <style>
+          shop-tabs,
+          shop-tab {
+            --shop-tab-overlay: {
+              border-bottom: none;
+            };
+          }
+        </style>
+      </template>
+    </dom-if>
+
     <shop-analytics key="UA-39334307-16"></shop-analytics>
     <!--
       app-location and app-route elements provide the state of the URL for the app.
@@ -281,17 +317,34 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <div id="tabContainer" sticky$="[[_shouldShowTabs]]" hidden$="[[!_shouldShowTabs]]">
         <dom-if if="[[_shouldRenderTabs]]">
           <template>
-            <shop-tabs
-                selected="[[categoryName]]"
-                attr-for-selected="name">
-              <dom-repeat items="[[categories]]" as="category" initial-count="4">
-                <template>
-                <shop-tab name="[[category.name]]">
-                  <a href="/list/[[category.name]]">[[category.title]]</a>
-                </shop-tab>
-                </template>
-              </dom-repeat>
-            </shop-tabs>
+            <dom-if if="[[guideline5]]">
+              <template>
+                <shop-tabs
+                    selected="[[categoryName]]"
+                    attr-for-selected="name">
+                  <dom-repeat items="[[categories]]" as="category" initial-count="4">
+                    <template>
+                    <shop-tab name="[[category.name]]">
+                      <a href="/list/[[category.name]]">[[category.title]]</a>
+                    </shop-tab>
+                    </template>
+                  </dom-repeat>
+                </shop-tabs>
+              </template>
+            </dom-if>
+            <dom-if if="[[!guideline5]]">
+              <template>
+                <shop-tabs selected="[[categoryName]]" attr-for-selected="name">
+                  <dom-repeat items="[[categories]]" as="category" initial-count="4">
+                    <template>
+                      <shop-tab name="[[category.name]]">
+                        <a href="/list/[[category.name]]">[[category.altTitle]]</a>
+                      </shop-tab>
+                    </template>
+                  </dom-repeat>
+                </shop-tabs>
+              </template>
+            </dom-if>
           </template>
         </dom-if>
       </div>
@@ -351,26 +404,31 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           notify: true,
           computed: 'genID()'
         },
+        //use simple colours
         guideline1: {
           type: Boolean,
           notify: true,
           computed: 'computeBool(id, 0)'
         },
+        //write in plain English
         guideline2: {
           type: Boolean,
           notify: true,
           computed: 'computeBool(id, 1)'
         },
+        //use simple sentences and bullets
         guideline3: {
           type: Boolean,
           notify: true,
           computed: 'computeBool(id, 2)'
         },
+        //make buttons descriptive - for example, Attach files
         guideline4: {
           type: Boolean,
           notify: true,
           computed: 'computeBool(id, 3)'
         },
+        //build simple and consistent layouts
         guideline5: {
           type: Boolean,
           notify: true,
