@@ -89,7 +89,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       .cart-btn-container {
         position: relative;
-        width: 40px;
+        /* width: 40px; */
       }
 
       .announcer {
@@ -227,29 +227,32 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     </style>
 
-    <dom-if if="{{!guideline1}}">
+    <dom-if if="{{!gl1}}">
       <template>
         <style>
           :host{
-            --app-bg-color: rgb(187, 89, 243);
-            --app-primary-color: #3aeff5;
-            --app-secondary-color: #310070;
+            --app-bg-color: #008720;
+            --app-primary-color: #FF054C;
+            --app-secondary-color: yellow;
             --app-accent-color: rgb(167, 218, 85);
-            background-color: rgb(187, 89, 243);
+            background-color: #008720;
           }
           app-header{
-            background-color: rgb(187, 89, 243);
+            background-color: #008720;
           }
           shop-tabs, shop-tab {
           --shop-tab-overlay: {
               border-bottom: none;
             };
           }
+          app-drawer {
+        background-color: #008720;
+      }
         </style>
       </template>
     </dom-if>
 
-    <dom-if if="{{!guideline5}}">
+    <dom-if if="{{!gl5}}">
       <template>
         <style>
           shop-tabs,
@@ -257,6 +260,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             --shop-tab-overlay: {
               border-bottom: none;
             };
+          }
+          iron-pages{
+            max-width: 1280px;
           }
         </style>
       </template>
@@ -307,7 +313,25 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <a href="/" aria-label="SHOP Home">SHOP</a></div>
         <div class="cart-btn-container">
           <a href="/cart" tabindex="-1">
-            <paper-icon-button icon="shopping-cart" aria-label$="Shopping cart: [[_computePluralizedQuantity(numItems)]]"></paper-icon-button>
+            <dom-if if="{{gl2}}">
+              <template>
+              <dom-if if="{{gl4}}">
+                <template>
+                <paper-icon-button icon="shopping-cart" aria-label$="Shopping cart: [[_computePluralizedQuantity(numItems)]]"></paper-icon-button>
+              </template>
+              </dom-if>
+              <dom-if if="{{!gl4}}">
+                <template>
+                  <paper-button aria-label$="Shopping cart: [[_computePluralizedQuantity(numItems)]]">cart</paper-button>
+                </template>
+              </dom-if>
+            </template>
+            </dom-if>
+            <dom-if if="{{!gl2}}">
+              <template>
+                <paper-button aria-label$="Shopping cart: [[_computePluralizedQuantity(numItems)]]">in the bag</paper-button>
+              </template>
+            </dom-if>
           </a>
           <div class="cart-badge" aria-hidden="true" hidden$="[[!numItems]]">[[numItems]]</div>
         </div>
@@ -317,7 +341,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <div id="tabContainer" sticky$="[[_shouldShowTabs]]" hidden$="[[!_shouldShowTabs]]">
         <dom-if if="[[_shouldRenderTabs]]">
           <template>
-            <dom-if if="[[guideline5]]">
+            <dom-if if="[[gl5]]">
               <template>
                 <shop-tabs
                     selected="[[categoryName]]"
@@ -332,7 +356,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 </shop-tabs>
               </template>
             </dom-if>
-            <dom-if if="[[!guideline5]]">
+            <dom-if if="[[!gl5]]">
               <template>
                 <shop-tabs selected="[[categoryName]]" attr-for-selected="name">
                   <dom-repeat items="[[categories]]" as="category" initial-count="4">
@@ -349,6 +373,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         </dom-if>
       </div>
     </app-header>
+
+    <dom-if if="[[!gl5]]">
+      <template>
+        <app-drawer opened persistent>
+          <iron-selector role="navigation" class="drawer-list" selected="[[categoryName]]" attr-for-selected="name">
+            <dom-repeat items="[[categories]]" as="category" initial-count="4">
+              <template>
+                <a name="[[category.name]]" href="/list/[[category.name]]">[[category.title]]</a>
+              </template>
+            </dom-repeat>
+          </iron-selector>
+        </app-drawer>
+      </template>
+    </dom-if>
 
     <!-- Lazy-create the drawer for small screen sizes. -->
     <dom-if if="[[_shouldRenderDrawer]]">
@@ -368,11 +406,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <iron-pages role="main" selected="[[page]]" attr-for-selected="name" selected-attribute="visible" fallback-selection="404">
       <!-- home view -->
-      <shop-home name="home" categories="[[categories]]"></shop-home>
+      <shop-home gl4="{{gl4}}" name="home" categories="[[categories]]"></shop-home>
       <!-- list view of items in a category -->
-      <shop-list name="list" route="[[subroute]]" offline="[[offline]]"></shop-list>
+      <shop-list gl1="{{gl1}}" gl5="{{gl5}}" name="list" route="[[subroute]]" offline="[[offline]]"></shop-list>
       <!-- detail view of one item -->
-      <shop-detail name="detail" route="[[subroute]]" offline="[[offline]]"></shop-detail>
+      <shop-detail gl5="{{gl5}}" gl4="{{gl4}}" name="detail" route="[[subroute]]" offline="[[offline]]"></shop-detail>
       <!-- cart view -->
       <shop-cart name="cart" cart="[[cart]]" total="[[total]]"></shop-cart>
       <!-- checkout view -->
@@ -405,41 +443,45 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           computed: 'genID()'
         },
         //use simple colours
-        guideline1: {
+        gl1: {
           type: Boolean,
           notify: true,
-          computed: 'computeBool(id, 0)'
+          computed: 'computeBool(id, 0)',
+          reflectToAttribute: true
         },
         //write in plain English
-        guideline2: {
+        gl2: {
           type: Boolean,
           notify: true,
-          computed: 'computeBool(id, 1)'
+          computed: 'computeBool(id, 1)',
+          reflectToAttribute: true
         },
         //use simple sentences and bullets
-        guideline3: {
+        gl3: {
           type: Boolean,
           notify: true,
-          computed: 'computeBool(id, 2)'
+          computed: 'computeBool(id, 2)',
+          reflectToAttribute: true
         },
         //make buttons descriptive - for example, Attach files
-        guideline4: {
+        gl4: {
           type: Boolean,
           notify: true,
-          computed: 'computeBool(id, 3)'
+          computed: 'computeBool(id, 3)',
+          reflectToAttribute: true
         },
         //build simple and consistent layouts
-        guideline5: {
+        gl5: {
           type: Boolean,
           notify: true,
-          computed: 'computeBool(id, 4)'
+          computed: 'computeBool(id, 4)',
+          reflectToAttribute: true
         },
         page: {
           type: String,
           reflectToAttribute: true,
           observer: '_pageChanged'
         },
-
         numItems: {
           type: Number,
           value: 0
@@ -496,7 +538,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           return false;
         }
       }
-
       _routePageChanged(page) {
         if (this.page === 'list') {
           this._listScrollTop = window.pageYOffset;

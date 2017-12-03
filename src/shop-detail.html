@@ -27,11 +27,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         display: block;
       }
 
-      #content {
+     #content {
         @apply --layout-horizontal;
         @apply --layout-center-justified;
       }
-
       shop-image {
         position: relative;
         margin: 64px 32px;
@@ -50,8 +49,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       .detail {
         margin: 64px 32px;
-        width: 50%;
-        max-width: 400px;
+        width: 100%;
+        /* max-width: 400px; */
         transition: opacity 0.4s;
         opacity: 0;
       }
@@ -130,6 +129,37 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
     </style>
+    <dom-if if="{{!gl3}}">
+      <template>
+        <style>
+          #content {
+        @apply --layout-vertical;
+      }
+      shop-image {
+        width: 100%;
+        max-width: 200px;
+      }
+        </style>
+      </template>
+    </dom-if>
+    <dom-if if="{{!gl5}}">
+      <template>
+        <style>
+          #content {
+            flex-direction: column;
+          }
+          .description {
+              margin: 0px 100px;
+              max-width: 370px;
+              font-size: 1.5em;
+          }
+          shop-image {
+            width: 100%;
+            max-width: 200px;
+          }
+        </style>
+      </template>
+    </dom-if>
 
     <!--
       app-route provides the name of the category and the item.
@@ -156,7 +186,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <div class="price">[[_formatPrice(item.price)]]</div>
         <div class="pickers">
           <shop-select>
+            <dom-if if="{{gl4}}">
+              <template>
             <label id="sizeLabel" prefix>Size</label>
+            </template>
+            </dom-if>
             <select id="sizeSelect" aria-labelledby="sizeLabel">
               <option value="XS">XS</option>
               <option value="S">S</option>
@@ -169,7 +203,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             </shop-md-decorator>
           </shop-select>
           <shop-select>
+            <dom-if if="{{gl4}}">
+              <template>
             <label id="quantityLabel" prefix>Quantity</label>
+            </template>
+            </dom-if>
             <select id="quantitySelect" aria-labelledby="quantityLabel">
               <option value="1" selected>1</option>
               <option value="2">2</option>
@@ -187,7 +225,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <p id="desc"></p>
         </div>
         <shop-button responsive>
+          <dom-if if="{{gl4}}">
+            <template>
           <button on-click="_addToCart" aria-label="Add this item to cart">Add to Cart</button>
+          </template>
+          </dom-if>
+          <dom-if if="{{!gl4}}">
+            <template>
+              <button on-click="_addToCart" aria-label="Add this item to cart">+ </button>
+            </template>
+          </dom-if>
         </shop-button>
       </div>
     </div>
@@ -214,7 +261,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         item: Object,
 
         route: Object,
-
+        gl5: {
+          type: Boolean,
+          notify: true,
+          reflectToAttribute: true
+        },
+        gl4: {
+          type: Boolean,
+          notify: true,
+          reflectToAttribute: true
+        },
         routeData: Object,
 
         visible: {

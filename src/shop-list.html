@@ -75,7 +75,33 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
     </style>
-
+    <dom-if if="{{!gl5}}">
+      <template>
+        <style>
+          .grid li {
+            -webkit-flex: 1 1;
+            flex: 1 1;
+            -webkit-flex-basis: 13%;
+            flex-basis: 13%;
+            max-width: 13%;
+          }
+          shop-list-item{
+            margin: 0 0px;
+          }
+        </style>
+      </template>
+    </dom-if>
+    <dom-if if="{{!gl1}}">
+      <template>
+        <style>
+          shop-list-item {
+            border: 2px solid blue;
+            border-radius: 40px;
+            background-color: #131313;
+          }
+        </style>
+      </template>
+    </dom-if>
     <!--
       app-route provides the name of the category.
     -->
@@ -133,7 +159,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       static get properties() { return {
 
         category: Object,
-
+        gl1: {
+          type: Boolean,
+          reflectToAttribute: true,
+          notify: true
+        },
+        gl5:{
+          type: Boolean,
+          reflectToAttribute: true,
+          notify: true
+        },
         route: Object,
 
         routeData: Object,

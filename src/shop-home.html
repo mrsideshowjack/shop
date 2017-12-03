@@ -106,9 +106,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <shop-image src="[[item.image]]" alt="[[item.title]]" placeholder-img="[[item.placeholder]]"></shop-image>
           </a>
           <h2>[[item.title]]</h2>
+          <dom-if if="{{gl4}}">
+            <template>
           <shop-button>
             <a aria-label$="[[item.title]] Shop Now" href$="/list/[[item.name]]">Shop Now</a>
           </shop-button>
+          </template>
+          </dom-if>
         </div>
       </template>
     </dom-repeat>
@@ -126,7 +130,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         categories: {
           type: Array
         },
-
+        gl4: {
+          type: Boolean,
+          reflectToAttribute: true,
+          notify: true
+        },
         visible: {
           type: Boolean,
           observer: '_visibleChanged'
