@@ -2,6 +2,8 @@
 
 > live link [webres-shop](https://webres-7b761.firebaseapp.com/)
 
+> link to [survey](https://docs.google.com/forms/d/e/1FAIpQLSc7onnU2-EL7SMp5z7Qoh0dc-klvFYUdYEHWvcqAQhHjCUZhA/viewform?usp=sf_link)
+
 ## Guidelines
 
 Designing for users on the autistic spectrum
@@ -31,14 +33,7 @@ Install [polymer-cli](https://github.com/Polymer/polymer-cli):
 
 
 ##### Setup
-    # Using CLI
-    mkdir shop
-    cd shop
-    polymer init shop
-
-    # Or cloning direct from GitHub
-    git clone https://github.com/Polymer/shop.git
-    cd shop
+    npm install
     bower install
 
 ### Start the development server
